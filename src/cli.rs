@@ -1,3 +1,3 @@
-pub fn get_first_cli_arg() -> String {
-    return std::env::args().nth(1).expect("No stack given.");
+pub fn get_cli_args() -> Vec<String> {
+    return std::env::args().skip(1).collect();
 }

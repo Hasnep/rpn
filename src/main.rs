@@ -1,4 +1,4 @@
-use crate::cli::get_first_cli_arg;
+use crate::cli::get_cli_args;
 
 mod cli;
 
@@ -33,8 +33,7 @@ impl Expression {
 }
 
 fn main() {
-    let input_stack = get_first_cli_arg();
-    let input_stack = input_stack.split_whitespace();
+    let input_stack = get_cli_args();
     let mut stack = Vec::new();
     for i in input_stack {
         match i {
