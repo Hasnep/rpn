@@ -16,35 +16,32 @@ impl Expression {
     }
 
     fn to_string(self) -> String {
-        if self.children.len() == 0 {
-            return self.value;
-        } else if self.children.len() == 2 {
-            return self
+        return match self.children.len() {
+            0 => self.value,
+            2 => self
                 .children
                 .into_iter()
                 .map(|e| e.to_string())
                 .rev()
                 .collect::<Vec<_>>()
-                .join(&[" ", &self.value, " "].join(""));
-        } else {
-            return "Something went wrong!".to_string();
-        }
+                .join(&[" ", &self.value, " "].join("")),
+            _ => "Something went wrong!".to_string(),
+        };
     }
 }
 
 fn main() {
     let input_stack = get_cli_args();
-    let mut stack = Vec::new();
+    let mut stack: Vec<Expression> = Vec::new();
     for i in input_stack {
-        match i {
+        match i.as_str() {
             "+" | "*" | "-" | "/" | "^" => {
                 let a = stack.pop().unwrap();
                 let b = stack.pop().unwrap();
-                let mut children = Vec::new();
-                children.push(a);
-                children.push(b);
-                let mut new_expression = Expression::new(i.to_string());
-                new_expression.children = children;
+                let new_expression = Expression {
+                    value: i,
+                    children: vec![a, b],
+                };
                 stack.push(new_expression);
             }
             _ => stack.push(Expression::new(i.to_string())),
