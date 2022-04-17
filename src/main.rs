@@ -18,6 +18,18 @@ impl Expression {
     fn to_string(self) -> String {
         return match self.children.len() {
             0 => self.value,
+            1 => [
+                &self.value,
+                "(",
+                self.children
+                    .into_iter()
+                    .map(|e| e.to_string())
+                    .next()
+                    .unwrap()
+                    .as_str(),
+                ")",
+            ]
+            .join(""),
             2 => self
                 .children
                 .into_iter()
@@ -41,6 +53,14 @@ fn main() {
                 let new_expression = Expression {
                     value: i,
                     children: vec![a, b],
+                };
+                stack.push(new_expression);
+            }
+            "sqrt" => {
+                let x = stack.pop().unwrap();
+                let new_expression = Expression {
+                    value: i,
+                    children: vec![x],
                 };
                 stack.push(new_expression);
             }
