@@ -42,30 +42,34 @@ impl Expression {
     }
 }
 
+fn parse_element(stack: &mut Vec<Expression>, i: String) {
+    return match i.as_str() {
+        "+" | "*" | "-" | "/" | "^" => {
+            let a = stack.pop().unwrap();
+            let b = stack.pop().unwrap();
+            let new_expression = Expression {
+                value: i,
+                children: vec![a, b],
+            };
+            stack.push(new_expression);
+        }
+        "sqrt" => {
+            let x = stack.pop().unwrap();
+            let new_expression = Expression {
+                value: i,
+                children: vec![x],
+            };
+            stack.push(new_expression);
+        }
+        _ => stack.push(Expression::new(i.to_string())),
+    };
+}
+
 fn main() {
     let input_stack = get_cli_args();
     let mut stack: Vec<Expression> = Vec::new();
     for i in input_stack {
-        match i.as_str() {
-            "+" | "*" | "-" | "/" | "^" => {
-                let a = stack.pop().unwrap();
-                let b = stack.pop().unwrap();
-                let new_expression = Expression {
-                    value: i,
-                    children: vec![a, b],
-                };
-                stack.push(new_expression);
-            }
-            "sqrt" => {
-                let x = stack.pop().unwrap();
-                let new_expression = Expression {
-                    value: i,
-                    children: vec![x],
-                };
-                stack.push(new_expression);
-            }
-            _ => stack.push(Expression::new(i.to_string())),
-        }
+        parse_element(&mut stack, i);
     }
 
     // Print stack
