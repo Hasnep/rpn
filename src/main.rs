@@ -42,7 +42,7 @@ impl Expression {
     }
 }
 
-fn parse_element(stack: &mut Vec<Expression>, i: String) {
+fn push_expression_to_stack(stack: &mut Vec<Expression>, i: String) {
     return match i.as_str() {
         "+" | "*" | "-" | "/" | "^" => {
             let a = stack.pop().unwrap();
@@ -69,7 +69,7 @@ fn main() {
     let input_stack = get_cli_args();
     let mut stack: Vec<Expression> = Vec::new();
     for i in input_stack {
-        parse_element(&mut stack, i);
+        push_expression_to_stack(&mut stack, i);
     }
 
     // Print stack
