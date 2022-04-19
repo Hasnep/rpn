@@ -53,7 +53,7 @@ fn parse_element(stack: &mut Vec<Expression>, i: String) {
             };
             stack.push(new_expression);
         }
-        "sqrt" => {
+        "cos" | "exp" | "ln" | "log" | "sin" | "sqrt" | "tan" => {
             let x = stack.pop().unwrap();
             let new_expression = Expression {
                 value: i,
